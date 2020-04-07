@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="newDoc">
+    <button type="submit">Upload</button>
+  </form>
+  
+	{% if parsed %}
+	<div class="table-responsive">
+		<table class="table table-hover">
+		  <thead>
+			<tr>
+			  <th scope="col">#</th>
+			  <th scope="col">Parsed Data</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <th scope="row">Name</th>
+			  <td>{{ name }}</td>
+			</tr>
+			<tr>
+			  <th scope="row">Email</th>
+			  <td>{{ email }}</td>
+			</tr>
+			<tr>
+			  <th scope="row">Phone</th>
+			  <td colspan="2">{{ phone }}</td>
+			</tr>
+			<tr>
+			  <th scope="row">LinkedIn</th>
+			  <td>{{ linkedinUrl }}</td>
+			</tr>
+			<tr>
+			  <th scope="row">No. of Pages</th>
+			  <td>{{ pages }}</td>
+			</tr>
+			<tr>
+			  <th scope="row">Text Lines</th>
+			  <td>{{ lines }}</td>
+			</tr>
+			<tr>
+			  <th scope="row">Text Characters</th>
+			  <td colspan="2">{{ chars }}</td>
+			</tr>
+			<tr>
+			  <th scope="row">Fonts</th>
+			  <td>{% for style in styles %} {{ style }}, {% endfor %}</td>
+			</tr>
+			<tr>
+			  <th scope="row">Font Sizes</th>
+			  <td colspan="2">{% for size in sizes %} {{ size }}pt {% endfor %}</td>
+			</tr>
+			<tr>
+			  <th scope="row">No. of Tables</th>
+			  <td>{{ tables }}</td>
+			</tr>
+			<tr>
+			  <th scope="row">No. of Images</th>
+			  <td colspan="2">{{ images }}</td>
+			</tr>
+		  </tbody>
+		</table>
+	</div>
+	
+	<div>
+		<a href={{ csvLink }}>Download as CSV</a> <a href={{ xlsxLink }}>Download as xlsx</a>
+	</div>
+	{% endif %}
+  {% endblock %}
