@@ -1,72 +1,104 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="newDoc">
-    <button type="submit">Upload</button>
-  </form>
-  
-	{% if parsed %}
-	<div class="table-responsive">
-		<table class="table table-hover">
-		  <thead>
-			<tr>
-			  <th scope="col">#</th>
-			  <th scope="col">Parsed Data</th>
-			</tr>
-		  </thead>
-		  <tbody>
-			<tr>
-			  <th scope="row">Name</th>
-			  <td>{{ name }}</td>
-			</tr>
-			<tr>
-			  <th scope="row">Email</th>
-			  <td>{{ email }}</td>
-			</tr>
-			<tr>
-			  <th scope="row">Phone</th>
-			  <td colspan="2">{{ phone }}</td>
-			</tr>
-			<tr>
-			  <th scope="row">LinkedIn</th>
-			  <td>{{ linkedinUrl }}</td>
-			</tr>
-			<tr>
-			  <th scope="row">No. of Pages</th>
-			  <td>{{ pages }}</td>
-			</tr>
-			<tr>
-			  <th scope="row">Text Lines</th>
-			  <td>{{ lines }}</td>
-			</tr>
-			<tr>
-			  <th scope="row">Text Characters</th>
-			  <td colspan="2">{{ chars }}</td>
-			</tr>
-			<tr>
-			  <th scope="row">Fonts</th>
-			  <td>{% for style in styles %} {{ style }}, {% endfor %}</td>
-			</tr>
-			<tr>
-			  <th scope="row">Font Sizes</th>
-			  <td colspan="2">{% for size in sizes %} {{ size }}pt {% endfor %}</td>
-			</tr>
-			<tr>
-			  <th scope="row">No. of Tables</th>
-			  <td>{{ tables }}</td>
-			</tr>
-			<tr>
-			  <th scope="row">No. of Images</th>
-			  <td colspan="2">{{ images }}</td>
-			</tr>
-		  </tbody>
-		</table>
+	{% if error %}
+		<div id="error" class="animated fadeInDown delay-1s">
+			{{ error }}
+			<button id="error-close" onclick="$('#error').removeClass('fadeInDown delay-1s');$('#error').addClass('fadeOutUp delay-0s');">X</button>
+		</div>
+	{% endif %}
+	<div class="header">
+		<h1>Resseract 1.0</h1><h2>A simple Resume Reader.</h2>
+	</div>
+	<div class="uploadForm">
+		<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+			<div class="form-group">
+				<label id="drop-area" for="newDoc" onclick="$('#file').click();"><i style="font-size:xxx-large" class="fas fa-cloud-upload-alt"></i><br><span id="desc">Click or drop files here</span></label>
+				<input id="file" type="file" name="newDoc" accept=".pdf,.docx" onchange="handleFile(this.files)" />
+			</div>
+			<button id="upload" disabled type="submit">Upload</button>
+		</form>
 	</div>
 	
-	<div>
-		<a href={{ csvLink }}>Download as CSV</a> <a href={{ xlsxLink }}>Download as xlsx</a>
+	{% if parsed %}	
+	<div class="outbox animated fadeInDown delay-1s">
+		<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#resultModal">View Analyzed Results</button>
+		<div class="downloads">
+			<a href={{ csvLink }}>Download as CSV</a> <a href={{ xlsxLink }}>Download as xlsx</a>
+		</div>
+	</div>
+	
+	<div id="resultModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h4 class="modal-title">Resseract 1.0 | Analysis Result</h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+		  </div>
+		  <div class="modal-body">
+			<div class="table-responsive output">
+				<table class="table table-hover">
+				  <thead>
+					<tr>
+					  <th scope="col"></th>
+					  <th scope="col">Extracted Data</th>
+					</tr>
+				  </thead>
+				  <tbody>
+					<tr>
+					  <th scope="row">Name</th>
+					  <td>{{ name }}</td>
+					</tr>
+					<tr>
+					  <th scope="row">Email</th>
+					  <td>{{ email }}</td>
+					</tr>
+					<tr>
+					  <th scope="row">Phone</th>
+					  <td colspan="2">{{ phone }}</td>
+					</tr>
+					<tr>
+					  <th scope="row">LinkedIn</th>
+					  <td>{{ linkedinUrl }}</td>
+					</tr>
+					<tr>
+					  <th scope="row">No. of Pages</th>
+					  <td>{{ pages }}</td>
+					</tr>
+					<tr>
+					  <th scope="row">Text Lines</th>
+					  <td>{{ lines }}</td>
+					</tr>
+					<tr>
+					  <th scope="row">Text Characters</th>
+					  <td colspan="2">{{ chars }}</td>
+					</tr>
+					<tr>
+					  <th scope="row">Fonts</th>
+					  <td>{% for style in styles %} {{ style }}, {% endfor %}</td>
+					</tr>
+					<tr>
+					  <th scope="row">Font Sizes</th>
+					  <td colspan="2">{% for size in sizes %} {{ size }}pt, {% endfor %}</td>
+					</tr>
+					<tr>
+					  <th scope="row">No. of Tables</th>
+					  <td>{{ tables }}</td>
+					</tr>
+					<tr>
+					  <th scope="row">No. of Images</th>
+					  <td colspan="2">{{ images }}</td>
+					</tr>
+				  </tbody>
+				</table>
+			</div>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		  </div>
+		</div>
+	  </div>
 	</div>
 	{% endif %}
   {% endblock %}
