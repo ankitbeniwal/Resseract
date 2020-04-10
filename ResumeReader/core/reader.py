@@ -1,7 +1,7 @@
-import docx, re, pythoncom, nltk, pandas as pd, string, random, ResumeReader.core.pdf2txt as pdf2txt
+import docx, re, win32com.client, pythoncom, nltk, pandas as pd, string, random, ResumeReader.core.pdf2txt as pdf2txt
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
 from nltk.corpus import stopwords
-#win32com.client
+
 stop = stopwords.words('english') #For Name Extraction
 
 def preprocess():
@@ -77,7 +77,7 @@ def readDetails(newDocUrl):
                 imageCount += 1   
                 
         #Extracting other counts
-        '''pythoncom.CoInitialize()
+        pythoncom.CoInitialize()
         word = win32com.client.Dispatch("Word.Application")
         word.Visible = False
         word.DisplayAlerts = False
@@ -86,7 +86,7 @@ def readDetails(newDocUrl):
         pageCount = word.ComputeStatistics(2)
         charCount = word.ComputeStatistics(5)
         lineCount = word.ComputeStatistics(1)
-        word.Close()'''
+        word.Close()
     else:
         error = "Incorrect Resume Format: Only .docx & .pdf files are accepted."
         
