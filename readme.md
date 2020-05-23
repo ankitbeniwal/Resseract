@@ -1,7 +1,8 @@
 # Resseract 1.0
+![GitHub](https://img.shields.io/github/license/pagalprogrammer/Resseract) ![GitHub top language](https://img.shields.io/github/languages/top/pagalprogrammer/Resseract) ![GitHub repo size](https://img.shields.io/github/repo-size/pagalprogrammer/Resseract)
 
 ### Description
-A simple rule based resume/cv parser web application built on django|Python. Browse the [live site](http://40.114.65.200/)
+A simple rule based resume/cv parser web application built on django|Python. 
 
 ### Requirements
 1. Python 3.7.0 or later Version
